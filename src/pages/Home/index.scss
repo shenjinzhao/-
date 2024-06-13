@@ -1,0 +1,22 @@
+.header {
+  background-color: #ffffff;
+  padding-left: 0;
+}
+.logo {
+  height: 64px;
+  color: #fff;
+  font-weight: 600;
+  line-height: 64px;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 2px;
+  background-color: #001529;
+}
+.bread-box {
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  line-height: 40px;
+}
