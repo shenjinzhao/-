@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./index.scss";
 const Login = () => {
   const navigate = useNavigate();
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     navigate("/home");
   };

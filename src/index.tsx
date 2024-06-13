@@ -12,9 +12,8 @@ import { BrowserRouter } from "react-router-dom";
 
 dayjs.locale("zh-cn");
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+// https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#non-null-assertion-operator-postfix-
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>

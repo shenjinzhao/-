@@ -1,11 +1,9 @@
-import User from '@/pages/Home/components/User';
+import User from "@/pages/Home/components/User";
 
-export default [
+const routes = [
   {
-    path: '/user',
+    path: "/user",
     element: <User />,
   },
-] as {
-  path: string;
-  element: JSX.Element;
-}[]
+];
+export default routes;
