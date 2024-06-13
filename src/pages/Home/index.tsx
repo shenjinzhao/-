@@ -1,6 +1,5 @@
 import "./index.scss";
-
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   UserOutlined,
   MenuUnfoldOutlined,
@@ -10,8 +9,11 @@ import {
 import type { MenuProps } from "antd";
 import { Layout, Menu, Button, Breadcrumb } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
+import { MenuItemType } from "antd/es/menu/interface";
+
 const { Header, Content, Footer, Sider } = Layout;
-const siderMenu: MenuProps["items"] = [
+type MenuItem = Required<MenuProps>["items"][number];
+const siderMenu: MenuItem[] = [
   {
     key: "user",
     icon: <UserOutlined />,
@@ -23,27 +25,31 @@ const siderMenu: MenuProps["items"] = [
     label: "印章管理",
   },
 ];
+
+// https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+const judgeMenuItemType = (param: any): param is MenuItemType =>
+  param.label && param.key;
+
 const Home = () => {
-  const [activeItem, setActiveItem] = useState('用户管理');
   const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-  
+
+  // https://zh-hans.react.dev/reference/react/useState#updating-state-based-on-the-previous-state
+  const toggleCollapsed = () => setCollapsed((v) => !v);
+
   const navigate = useNavigate();
   // 面包屑名称
-  const [breadcrumbName, setBreadcrumbName] = useState("user");
+  const [activeItem, setActiveItem] = useState("user");
   // 点击菜单
-  const handleSiderClick: MenuProps["onClick"] = ({ key, keyPath }) => {
-    setBreadcrumbName(key);
-    siderMenu.forEach(el => {
-      if(el?.key == key) {
-        setActiveItem(el.label);
-      }
-    })
+  const handleSiderClick: MenuProps["onClick"] = ({ key }) => {
+    setActiveItem(key);
     // 路由跳转
     navigate(key);
   };
+  // https://zh-hans.react.dev/reference/react/useMemo
+  const title = useMemo(() => {
+    const item = siderMenu.find((item) => item?.key === activeItem);
+    return judgeMenuItemType(item) ? item.label : null;
+  }, [activeItem]);
   return (
     <Layout>
       <Sider width={200} collapsed={collapsed}>
@@ -51,7 +57,7 @@ const Home = () => {
         <Menu
           theme={"dark"}
           mode="inline"
-          defaultSelectedKeys={["user"]}
+          defaultSelectedKeys={[activeItem]}
           style={{ height: "100%", borderRight: 0 }}
           items={siderMenu}
           onClick={handleSiderClick}
@@ -68,14 +74,14 @@ const Home = () => {
           </Button>
         </Header>
         <div className="bread-box">
-          <div className="active-item">{activeItem}</div>
+          <div className="active-item">{title}</div>
           <Breadcrumb
             items={[
               {
                 title: "home",
               },
               {
-                title: breadcrumbName,
+                title: activeItem,
               },
             ]}
           />
