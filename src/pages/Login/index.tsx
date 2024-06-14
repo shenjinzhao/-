@@ -1,13 +1,18 @@
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
+import { getUserInfo } from "@/api/user";
+import { LoginInfoParams } from "@/api/user/type";
+
 const Login = () => {
   const navigate = useNavigate();
-  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const params: LoginInfoParams = {
+    withBusNameList: true,
+  };
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-    
+    await getUserInfo(params);
     navigate("/home");
   };
   return (
