@@ -7,6 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
+    
     navigate("/home");
   };
   return (

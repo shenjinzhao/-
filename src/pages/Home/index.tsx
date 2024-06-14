@@ -5,13 +5,15 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   AuditOutlined,
+  ApartmentOutlined,
+  VerifiedOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, Button, Breadcrumb } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
 import { MenuItemType } from "antd/es/menu/interface";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 const siderMenu: MenuItem[] = [
   {
@@ -20,9 +22,24 @@ const siderMenu: MenuItem[] = [
     label: "用户管理",
   },
   {
+    key: "organization",
+    icon: <ApartmentOutlined />,
+    label: "机构管理",
+  },
+  {
     key: "seal",
     icon: <AuditOutlined />,
     label: "印章管理",
+  },
+  {
+    key: "sealType",
+    icon: <AuditOutlined />,
+    label: "印章类型管理",
+  },
+  {
+    key: "cert",
+    icon: <VerifiedOutlined />,
+    label: "证书管理",
   },
 ];
 
@@ -51,7 +68,7 @@ const Home = () => {
     return judgeMenuItemType(item) ? item.label : null;
   }, [activeItem]);
   return (
-    <Layout>
+    <Layout className="home-bg">
       <Sider width={200} collapsed={collapsed}>
         <div className="logo">电子签章系统</div>
         <Menu
@@ -86,16 +103,9 @@ const Home = () => {
             ]}
           />
         </div>
-        <Content
-          style={{
-            padding: 24,
-            margin: 0,
-            minHeight: 280,
-          }}
-        >
+        <Content className="content">
           <Outlet />
         </Content>
-        <Footer>Footer</Footer>
       </Layout>
     </Layout>
   );
