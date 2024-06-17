@@ -17,33 +17,41 @@ interface data {
   content: Array<tableItem>;
   pageable: pageable;
 }
-export interface sealTypeRet {
+export interface certListRet {
   code: number;
   data: data;
   msg: string;
 }
 
-export interface sealTypeParams {
+export interface certListParams {
   current: number;
   limit: number;
 }
 
 
-export interface addSealTypeRet {
+export interface registerCertRet {
   code: number;
   data: null;
   msg: string;
 }
 
-export interface addSealTypeParams {
+export interface registerCertParams {
   sealTypeCode: string;
   sealTypeName: string;
 }
-export interface sealStatusRet {
+export interface deleteCertRet {
   code: number;
   data: null;
   msg: string;
 }
-export interface sealStatusParams {
+export interface deleteCertParams {
+  sealTypeId: number; // 印章类型ID
+}
+export interface changeStatusCertRet {
+  code: number;
+  data: null;
+  msg: string;
+}
+export interface changeStatusCertParams {
   sealTypeId: number; // 印章类型ID
 }

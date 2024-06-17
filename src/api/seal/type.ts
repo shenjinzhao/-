@@ -17,33 +17,33 @@ interface data {
   content: Array<tableItem>;
   pageable: pageable;
 }
-export interface sealTypeRet {
+export interface sealListRet {
   code: number;
   data: data;
   msg: string;
 }
 
-export interface sealTypeParams {
+export interface sealListParams {
   current: number;
   limit: number;
 }
 
 
-export interface addSealTypeRet {
+export interface deleteSealRet {
   code: number;
   data: null;
   msg: string;
 }
 
-export interface addSealTypeParams {
+export interface deleteSealParams {
   sealTypeCode: string;
   sealTypeName: string;
 }
-export interface sealStatusRet {
+export interface makeSealRet {
   code: number;
   data: null;
   msg: string;
 }
-export interface sealStatusParams {
+export interface makeSealParams {
   sealTypeId: number; // 印章类型ID
 }
