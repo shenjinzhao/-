@@ -1,8 +1,8 @@
 import axios from "@/api";
-import { LoginInfoRet, LoginInfoParams } from "./type";
+import { LoginInfoRet, LoginParams } from "./type";
 
-const { get } = axios("user");
+const { post } = axios("");
 
-/**  用户个人登录信息 */
-export const getUserInfo = (data: LoginInfoParams) =>
-  get<LoginInfoRet>("logininfo", data);
+/**  用户登录 */
+export const login = (data: LoginParams) =>
+  post<LoginInfoRet>("admin/login", data);

@@ -1,22 +1,38 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button,message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
-import { getUserInfo } from "@/api/user";
-import { LoginInfoParams } from "@/api/user/type";
+import { login } from "@/api/user";
+import { LoginParams } from "@/api/user/type";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const params: LoginInfoParams = {
-    withBusNameList: true,
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+  const initialValues = {
+    username: "admin",
+    password: "a@111111",
   };
-  const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.preventDefault();
-    await getUserInfo(params);
-    navigate("/home");
+  const navigate = useNavigate();
+  const handleSubmit = async (value: any) => {
+    const params: LoginParams = {
+      userCode: value.username,
+      userPassword: value.password
+    };
+    // e.preventDefault();
+    const res = await login(params);
+    if(res.code === 0) {
+      messageApi.open({
+        type: 'success',
+        content: '登录成功!',
+        duration: 1
+      }).then(() => {
+        navigate("/home");
+      })
+    }
   };
   return (
     <div className="login-bg">
+      {contextHolder}
       <div className="login-box">
         <div className="login-left"></div>
         <div className="login-right">
@@ -33,6 +49,9 @@ const Login = () => {
             autoComplete="off"
             layout="vertical"
             className="login-form"
+            form={form}
+            initialValues={initialValues}
+            onFinish={handleSubmit}
           >
             <div className="login-title">电子签章系统</div>
             <Form.Item
@@ -57,7 +76,6 @@ const Login = () => {
                 type="primary"
                 htmlType="submit"
                 block
-                onClick={handleSubmit}
               >
                 登录
               </Button>

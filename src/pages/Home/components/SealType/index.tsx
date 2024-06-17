@@ -2,15 +2,33 @@ import './index.scss';
 import { Table,Space,Button } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
+import { getSealTypeList } from "@/api/sealType";
+import { sealTypeParams } from "@/api/sealType/type";
+import { Component } from 'react';
 interface DataType {
   id: number;
   sealTypeCode: string;
   sealTypeName: string;
   status: number;
 }
+class SealType extends Component {
 
-const SealType = () => {
-  const dataSource: DataType[] = [
+  componentDidMount() {
+    this.getSealTypeList();
+  }
+
+  async getSealTypeList() {
+    const data: sealTypeParams = {
+      // limit: this.limit,
+      // current: this.current
+    }
+    const res = await getSealTypeList(data);
+    console.log(res);
+    
+  }
+  limit: number = 10;
+  current: number = 1;
+  dataSource: DataType[] = [
     {
       id: 1,
       sealTypeCode: '0001',
@@ -24,7 +42,7 @@ const SealType = () => {
       status: 1,
     },
   ];
-  const columns: TableProps<DataType>['columns'] = [
+  columns: TableProps<DataType>['columns'] = [
     {
       title: '印章类型编码',
       dataIndex: 'sealTypeCode',
@@ -54,14 +72,16 @@ const SealType = () => {
   ];
 
 
-  return (
-    <div className="bg">
-      <div className="headers">
-        <Button type="primary" icon={<PlusOutlined />}>新增</Button>
+  render() {
+    return (
+      <div className="bg">
+        <div className="headers">
+          <Button type="primary" icon={<PlusOutlined />}>新增</Button>
+        </div>
+      <Table dataSource={this.dataSource} columns={this.columns} />
       </div>
-    <Table dataSource={dataSource} columns={columns} />
-    </div>
-  );
+    );
+  }
 };
 
 export default SealType;

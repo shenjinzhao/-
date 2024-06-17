@@ -59,6 +59,7 @@
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.77.5",
     "sass-loader": "^12.3.0",
+    "sdzm-axios": "^1.0.1",
     "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",

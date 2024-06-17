@@ -1,9 +1,7 @@
 import type { AxiosInstance, AxiosResponse } from "sdzm-axios";
 export const enum ErrNo {
-  Success,
-  LoginFailed = 1003,
-  NoAuth,
-  NoDalleAuth = 10000801,
+  Success = 0,
+  Fail = 1000,
 }
 export const serviceInterceptors = (service: AxiosInstance) => {
   service.interceptors.request.use((config) => {
@@ -30,17 +28,17 @@ export const serviceInterceptors = (service: AxiosInstance) => {
 };
 
 function errorHandle(response: AxiosResponse) {
+  
   const data = response?.data;
-  const message = data?.errMsg ?? "请求错误！";
-  switch (data.errNo) {
+  const message = data?.msg ?? "请求错误！";
+  switch (data.code) {
     case ErrNo.Success:
-      return data.data;
-    case ErrNo.LoginFailed:
-      window.location.href = data.data.loginUrl;
-      return new Promise(() => {});
-    case ErrNo.NoAuth:
-      return response;
-    case ErrNo.NoDalleAuth:
+      return data;
+    // case ErrNo.LoginFailed:
+    //   window.location.href = data.data.loginUrl;
+    //   return new Promise(() => {});
+    case ErrNo.Fail:
+      throw new Error(message);
     default:
       throw new Error(message);
   }
@@ -48,6 +46,6 @@ function errorHandle(response: AxiosResponse) {
 
 export interface ResponseData<T = any> {
   data: T;
-  errNo: string;
-  errMsg: string;
+  code: number;
+  msg: string;
 }

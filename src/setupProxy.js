@@ -2,9 +2,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    "/openmis",
+    "/eSignature",
     createProxyMiddleware({
-      target: "http://127.0.0.1:8080/openmis",
+      target: "http://192.168.0.121:20003/eSignature",
       changeOrigin: true,
     })
   );

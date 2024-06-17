@@ -1,13 +1,6 @@
 export interface LoginInfoRet {
-  uname: string; //用户id
-  zhName: string; //用户名称
-  isSystemAdmin: boolean; //是否是超级管理员
-  pinyin: string; //用户邮箱前缀
-  businessList: BusinessListItem[]; //业务线列表
-  secret: string; //用户密钥
-  isGuest: boolean; //是否是游客
-  nameList: string[]; //业务线管理员列表
-  userCount: number; //总人数
+  code: number;
+  msg: string;
 }
 
 export interface BusinessListItem {
@@ -30,8 +23,9 @@ export const enum RoleId {
   BusSuperAdmin,
 }
 
-export interface LoginInfoParams {
-  withBusNameList: boolean; //是否需要业务线列表
+export interface LoginParams {
+  userCode: string; //用户名
+  userPassword: string; //密码
 }
 
 export const enum BusinessUserStatus {
