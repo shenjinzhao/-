@@ -2,9 +2,12 @@ import type { AxiosInstance, AxiosResponse } from "sdzm-axios";
 export const enum ErrNo {
   Success = 0,
   Fail = 1000,
+  TokenError = 1001
 }
 export const serviceInterceptors = (service: AxiosInstance) => {
   service.interceptors.request.use((config) => {
+    
+    
     switch (config.method) {
       case "get":
         config.params = { ...config.params };
@@ -12,6 +15,7 @@ export const serviceInterceptors = (service: AxiosInstance) => {
       case "post":
         config.data = { ...config.data };
     }
+    // config.headers['Content-Type'] = 'multipart/form-data';
     return config;
   });
   service.interceptors.response.use(errorHandle, (error) => {
@@ -28,15 +32,14 @@ export const serviceInterceptors = (service: AxiosInstance) => {
 };
 
 function errorHandle(response: AxiosResponse) {
-  
+
   const data = response?.data;
   const message = data?.msg ?? "请求错误！";
   switch (data.code) {
     case ErrNo.Success:
       return data;
-    // case ErrNo.LoginFailed:
-    //   window.location.href = data.data.loginUrl;
-    //   return new Promise(() => {});
+    case ErrNo.TokenError:
+      throw new Error(message);
     case ErrNo.Fail:
       throw new Error(message);
     default:

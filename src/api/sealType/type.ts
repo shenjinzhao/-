@@ -1,9 +1,10 @@
 // 表格数据每项
-interface tableItem {
+export interface sealTypeItem {
   id: number;
   sealTypeCode: string;
   sealTypeName: string;
   status: number;
+  userType: USERTYPE;
 }
 // 分页信息
 interface pageable {
@@ -14,7 +15,7 @@ interface pageable {
 }
 // 完整信息
 interface data {
-  content: Array<tableItem>;
+  content: Array<sealTypeItem>;
   pageable: pageable;
 }
 export interface sealTypeRet {
@@ -38,7 +39,22 @@ export interface addSealTypeRet {
 export interface addSealTypeParams {
   sealTypeCode: string;
   sealTypeName: string;
+  userType: USERTYPE;
 }
+
+export interface editSealTypeRet {
+  code: number;
+  data: null;
+  msg: string;
+}
+
+export interface editSealTypeParams {
+  sealTypeId: number;
+  sealTypeCode: string;
+  sealTypeName: string;
+  userType: USERTYPE;
+}
+
 export interface sealStatusRet {
   code: number;
   data: null;
@@ -46,4 +62,14 @@ export interface sealStatusRet {
 }
 export interface sealStatusParams {
   sealTypeId: number; // 印章类型ID
+}
+
+export interface sealTypeListNoPageRet {
+  code: number;
+  data: Array<sealTypeItem>;
+  msg: string;
+}
+const enum USERTYPE {
+  Org = 1,
+  Person = 2
 }

@@ -12,7 +12,7 @@ const { get, post } = axios("");
 
 /**  获取印章列表 */
 export const getSealList = (data: sealListParams) =>
-  get<sealListRet>("seal/list", data);
+  get<sealListRet>("seal/page", data);
 
 /**  删除印章 */
 export const deleteSeal = (data: deleteSealParams) =>

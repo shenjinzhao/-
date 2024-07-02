@@ -1,8 +1,24 @@
 import axios from "@/api";
-import { LoginInfoRet, LoginParams } from "./type";
+import { getUserByOrgCodeRet, getUserByOrgCodeParams, getUserListPageParams, getUserListPageRet, addUserParams, addUserRet,deleteUserParams,deleteRet,editUserParams,editUserRet } from "./type";
 
-const { post } = axios("");
+const { get, post } = axios("");
+/**  获取用户列表不分页 */
+export const getUserList = (data: any) =>
+  get<getUserByOrgCodeRet>("user/list", data);
 
-/**  用户登录 */
-export const login = (data: LoginParams) =>
-  post<LoginInfoRet>("admin/login", data);
+
+/**  获取用户列表分页 */
+export const getUserListPage = (data: getUserListPageParams) =>
+  get<getUserListPageRet>("user/page", data);
+
+/**  添加用户 */
+export const addUser = (data: addUserParams) =>
+  post<addUserRet>("user/add", data);
+
+/**  编辑用户 */
+export const editUser = (data: editUserParams) =>
+  post<editUserRet>("user/edit", data);
+
+/**  删除用户 */
+export const deleteUser = (data: deleteUserParams) =>
+  post<deleteRet>("user/delete", data);

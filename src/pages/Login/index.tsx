@@ -1,9 +1,9 @@
-import { Form, Input, Button,message } from "antd";
+import { Form, Input, Button, message, Image } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
-import { login } from "@/api/user";
-import { LoginParams } from "@/api/user/type";
+import { login } from "@/api/login";
+import { LoginParams } from "@/api/login/type";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -16,25 +16,29 @@ const Login = () => {
   const handleSubmit = async (value: any) => {
     const params: LoginParams = {
       userCode: value.username,
-      userPassword: value.password
+      userPassword: value.password,
     };
     // e.preventDefault();
     const res = await login(params);
-    if(res.code === 0) {
-      messageApi.open({
-        type: 'success',
-        content: '登录成功!',
-        duration: 1
-      }).then(() => {
-        navigate("/home");
-      })
+    if (res.code === 0) {
+      messageApi
+        .open({
+          type: "success",
+          content: "登录成功!",
+          duration: 1,
+        })
+        .then(() => {
+          navigate("/home");
+        });
     }
   };
   return (
     <div className="login-bg">
       {contextHolder}
       <div className="login-box">
-        <div className="login-left"></div>
+        <div className="login-left">
+          <Image className="left-image" src={require("@/assets/left.png")} preview={false} />
+        </div>
         <div className="login-right">
           <Form
             labelCol={{
@@ -72,11 +76,7 @@ const Login = () => {
               />
             </Form.Item>
             <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                block
-              >
+              <Button type="primary" htmlType="submit" block>
                 登录
               </Button>
             </Form.Item>

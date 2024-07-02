@@ -1,9 +1,10 @@
 // 表格数据每项
-interface tableItem {
-  id: number;
-  sealTypeCode: string;
+export interface tableItem {
+  sealCode: string;
+  sealName: string;
+  sealTypeCode: number;
   sealTypeName: string;
-  status: number;
+  sealImage: string;
 }
 // 分页信息
 interface pageable {
@@ -36,8 +37,7 @@ export interface deleteSealRet {
 }
 
 export interface deleteSealParams {
-  sealTypeCode: string;
-  sealTypeName: string;
+  sealCode: string;
 }
 export interface makeSealRet {
   code: number;

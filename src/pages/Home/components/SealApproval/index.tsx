@@ -1,15 +1,16 @@
-import { Table, message, Button, Space, Popconfirm, Image, Spin } from "antd";
+import "./index.scss";
+import { Table, Space, Button, Badge, message, Image, Spin } from "antd";
 import type { TableProps } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { getSealApplyList } from "@/api/sealApply";
+import { tableItem } from "@/api/sealApply/type";
+import { approvalSealApply } from "@/api/sealApply/index";
 import { useState, useEffect } from "react";
-import { getSealList, deleteSeal } from "@/api/seal/index";
-import { tableItem } from "@/api/seal/type";
-const Seal = () => {
+const SealApproval = () => {
   // DATA
-  // 表格数据
-  const [dataSource, setDataSource] = useState<tableItem[]>([]);
   // 消息提示
   const [messageApi, contextHolder] = message.useMessage();
+  // 表格数据
+  const [dataSource, setDataSource] = useState<tableItem[]>([]);
   // 表格数据页码
   const [current, setCurrent] = useState<number>(1);
   // 表格数据每页条数
@@ -30,20 +31,18 @@ const Seal = () => {
     onChange: (current: number, pageSize: number) =>
       changePage(current, pageSize),
   };
-
-  // Function
   useEffect(() => {
-    // 获取印章列表
-    getSealListReq(1, 10);
+    // 获取印章申请列表
+    getSealApplyListReq(1, 10);
   }, []);
-    // 获取印章列表
-  const getSealListReq = async (current: number, limit: number) => {
+  // 获取印章申请列表
+  const getSealApplyListReq = async (current: number, limit: number) => {
     setLoading(true);
     const data = {
       limit: limit,
       current: current,
     };
-    const res = await getSealList(data);
+    const res = await getSealApplyList(data);
     if (res.code === 0) {
       setDataSource(
         res.data.content.map((el, index: number) => ({ index, ...el }))
@@ -56,24 +55,28 @@ const Seal = () => {
   };
   // 监听页码和每页条数的变化
   const changePage = (current: number, pageSize: number) => {
-    getSealListReq(current, pageSize);
+    getSealApplyListReq(current, pageSize);
   };
-  const confirm = async (record: tableItem) => {
-    const res = await deleteSeal({ sealCode: record.sealCode });
+  // 审批接口
+  const approval = async (type: number, record: tableItem) => {
+    const res = await approvalSealApply({
+      status: type,
+      sealApplyCode: record.sealApplyCode,
+    });
     if (res.code === 0) {
       messageApi
         .open({
           type: "success",
-          content: "删除成功!",
+          content: "审批完成!",
           duration: 1,
         })
         .then(() => {
-          getSealListReq(current, limit);
+          getSealApplyListReq(current, limit);
         });
     }
   };
   // 渲染表格数据配置
-  const columns: TableProps["columns"] = [
+  const columns: TableProps<tableItem>["columns"] = [
     {
       title: "#",
       align: "center",
@@ -82,22 +85,39 @@ const Seal = () => {
       render: (text, record, index) => `${index + 1}`,
     },
     {
+      title: "印章申请编号",
+      align: "center",
+      width: 300,
+      dataIndex: "sealApplyCode",
+      key: "sealApplyCode",
+    },
+    {
       title: "印章名称",
       align: "center",
       dataIndex: "sealName",
-      key: "userName",
+      key: "sealName",
     },
     {
-      title: "印章编码",
-      align: "center",
-      dataIndex: "sealCode",
-      key: "userCode",
-    },
-    {
-      title: "印章类型",
+      title: "印章类型名称",
       align: "center",
       dataIndex: "sealTypeName",
       key: "sealTypeName",
+    },
+    {
+      title: "申请状态",
+      align: "center",
+      dataIndex: "status",
+      key: "status",
+      render: (_, record) => {
+        switch (record.status) {
+          case 0:
+            return <Badge status="default" text="待审批"></Badge>;
+          case 1:
+            return <Badge status="success" text="通过"></Badge>;
+          case 2:
+            return <Badge status="error" text="未通过"></Badge>;
+        }
+      },
     },
     {
       title: "印章图片",
@@ -114,20 +134,41 @@ const Seal = () => {
       },
     },
     {
+      title: "申请时间",
+      align: "center",
+      width: 250,
+      dataIndex: "applyTime",
+      key: "applyTime",
+    },
+    {
+      title: "审批时间",
+      align: "center",
+      width: 250,
+      dataIndex: "approvalTime",
+      key: "approvalTime",
+    },
+    {
       title: "操作",
       align: "center",
+      width: 180,
+      fixed: "right",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Popconfirm
-            title="提示"
-            description="您确定要删除该印章吗?"
-            onConfirm={() => confirm(record)}
-            okText="是"
-            cancelText="否"
+          <Button
+            type="link"
+            onClick={() => approval(1, record)}
+            disabled={record.status !== 0}
           >
-            <Button type="link" icon={<DeleteOutlined />}>删除</Button>
-          </Popconfirm>
+            同意
+          </Button>
+          <Button
+            type="link"
+            onClick={() => approval(2, record)}
+            disabled={record.status !== 0}
+          >
+            拒绝
+          </Button>
         </Space>
       ),
     },
@@ -140,12 +181,12 @@ const Seal = () => {
           dataSource={dataSource}
           pagination={pageination}
           columns={columns}
-          scroll={{ y: 560 }}
-          rowKey={(record) => record.sealCode}
+          scroll={{ x: 1800, y: 560 }}
+          rowKey={(record) => record.id}
         />
       </Spin>
     </div>
   );
 };
 
-export default Seal;
+export default SealApproval;
