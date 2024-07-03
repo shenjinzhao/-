@@ -1,12 +1,10 @@
-import axios from "@/api";
-import { LoginInfoRet, LoginParams } from "./type";
+import axios from '@/api'
+import { LoginParams } from './type'
 
-const { post } = axios("");
+const { post } = axios('admin')
 
 /**  用户登录 */
-export const login = (data: LoginParams) =>
-  post<LoginInfoRet>("admin/login", data);
+export const login = (data: LoginParams) => post('login', data)
 
 /**  用户登出 */
-export const logout = (data: any) =>
-  post<LoginInfoRet>("admin/logout", data);
+export const logout = () => post('logout')

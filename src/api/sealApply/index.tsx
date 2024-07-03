@@ -1,29 +1,21 @@
-import axios from "@/api";
+import axios from '@/api'
 import {
-  sealApplyListRet,
-  sealApplyListParams,
-  sealApplyRet,
-  sealApplyParams,
-  deleteSealApplyRet,
-  deleteSealApplyParams,
-  approvalSealApplyRet,
-  approvalSealApplyParams
-} from "./type";
+  SealApplyListParams,
+  SealApplyListRet,
+  DeleteSealApplyParams,
+  ApprovalSealApplyParams
+} from './type'
 
-const { get, post } = axios("");
+const { get, post } = axios('seal_apply')
 
 /**  分页获取印章申请列表 */
-export const getSealApplyList = (data: sealApplyListParams) =>
-  get<sealApplyListRet>("seal_apply/page", data);
+export const getSealApplyList = (data: SealApplyListParams) => get<SealApplyListRet>('page', data)
 
 /**  印章申请 */
-export const sealApply = (data: any) =>
-  post<sealApplyRet>("seal_apply/apply", data);
+export const sealApply = (data: any) => post('apply', data)
 
 /**  删除印章申请 */
-export const deleteSealApply = (data: deleteSealApplyParams) =>
-  post<deleteSealApplyRet>("seal_apply/delete", data);
+export const deleteSealApply = (data: DeleteSealApplyParams) => post('delete', data)
 
 /**  印章申请审批 */
-export const approvalSealApply = (data: approvalSealApplyParams) =>
-  post<approvalSealApplyRet>("seal_apply/approval", data);
+export const approvalSealApply = (data: ApprovalSealApplyParams) => post('approval', data)

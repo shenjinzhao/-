@@ -1,90 +1,51 @@
-export interface User {
-  id: number;
-  userName: string;
-  userCode: string;
-  userIdCard: string;
-  createTime: string;
-  status: number;
-  roleId: number;
-  roleName: string;
-  orgId: number;
-  orgName: string;
-  userType: USERTYPE
+import { UniversalListParams, UniversalListRet } from '@/declare'
+
+export interface UserListItem {
+  id: number
+  userName: string
+  userCode: string
+  userIdCard: string
+  createTime: string
+  status: number
+  roleId: number
+  roleName: string
+  orgId: number
+  orgName: string
+  userType: UserType
 }
-const enum USERTYPE {
+const enum UserType {
   Org = 1, // 机构
   Person = 2 // 个人
 }
-export interface getUserByOrgCodeRet {
-  code: number;
-  data: Array<User>;
-  msg: string;
+export type GetUserByOrgCodeRet = Array<UserListItem>
+
+export interface GetUserByOrgCodeParams {
+  orgCode: string // 机构编码
 }
 
-export interface getUserByOrgCodeParams {
-  orgCode: string; // 机构编码
+export type GetUserListPageRet = UniversalListRet<UserListItem>
+
+export type GetUserListPageParams = UniversalListParams
+
+export interface AddUserParams {
+  userName: string
+  userCode: string
+  userIdCard: string
+  userType: UserType
+  password: string
+  roleCode: string
 }
 
-interface pageable {
-  pageSize: number;
-  pageNumber: number;
-  totalElements: number;
-  totalPages: number;
+export interface EditUserParams {
+  userId: number
+  userName: string
+  userCode: string
+  userIdCard: string
+  userType: UserType
+  password: string
+  roleCode: string
 }
 
-interface data {
-  content: Array<User>;
-  pageable: pageable
-}
-
-export interface getUserListPageRet {
-  code: number;
-  data: data;
-  msg: string;
-}
-
-export interface getUserListPageParams {
-  limit: number;
-  current: number;
-}
-
-export interface addUserRet {
-  code: number;
-  data: any;
-  msg: string;
-}
-
-export interface addUserParams {
-  userName: string;
-  userCode: string;
-  userIdCard: string;
-  userType: USERTYPE;
-  password: string;
-  roleCode: string;
-}
-
-export interface editUserRet {
-  code: number;
-  data: any;
-  msg: string;
-}
-
-export interface editUserParams {
-  userId: number;
-  userName: string;
-  userCode: string;
-  userIdCard: string;
-  userType: USERTYPE;
-  password: string;
-  roleCode: string;
-}
-
-export interface deleteRet {
-  code: number;
-  data: any;
-  msg: string;
-}
-
-export interface deleteUserParams {
-  userId: number;
+export interface DeleteUserParams {
+  userId: number
 }

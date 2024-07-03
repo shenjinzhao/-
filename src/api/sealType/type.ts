@@ -1,75 +1,36 @@
+import { UniversalListParams, UniversalListRet } from '@/declare'
+
 // 表格数据每项
-export interface sealTypeItem {
-  id: number;
-  sealTypeCode: string;
-  sealTypeName: string;
-  status: number;
-  userType: USERTYPE;
+export interface SealTypeItem {
+  id: number
+  sealTypeCode: string
+  sealTypeName: string
+  status: number
+  userType: UserType
 }
-// 分页信息
-interface pageable {
-  pageNumber: number;
-  pageSize: number;
-  totalPages: number;
-  totalElements: number;
-}
-// 完整信息
-interface data {
-  content: Array<sealTypeItem>;
-  pageable: pageable;
-}
-export interface sealTypeRet {
-  code: number;
-  data: data;
-  msg: string;
+export type SealTypeRet = UniversalListRet<SealTypeItem>
+
+export type SealTypeParams = UniversalListParams
+
+export interface AddSealTypeParams {
+  sealTypeCode: string
+  sealTypeName: string
+  userType: UserType
 }
 
-export interface sealTypeParams {
-  current: number;
-  limit: number;
+export interface EditSealTypeParams {
+  sealTypeId: number
+  sealTypeCode: string
+  sealTypeName: string
+  userType: UserType
 }
 
-
-export interface addSealTypeRet {
-  code: number;
-  data: null;
-  msg: string;
+export interface SealStatusParams {
+  sealTypeId: number // 印章类型ID
 }
 
-export interface addSealTypeParams {
-  sealTypeCode: string;
-  sealTypeName: string;
-  userType: USERTYPE;
-}
-
-export interface editSealTypeRet {
-  code: number;
-  data: null;
-  msg: string;
-}
-
-export interface editSealTypeParams {
-  sealTypeId: number;
-  sealTypeCode: string;
-  sealTypeName: string;
-  userType: USERTYPE;
-}
-
-export interface sealStatusRet {
-  code: number;
-  data: null;
-  msg: string;
-}
-export interface sealStatusParams {
-  sealTypeId: number; // 印章类型ID
-}
-
-export interface sealTypeListNoPageRet {
-  code: number;
-  data: Array<sealTypeItem>;
-  msg: string;
-}
-const enum USERTYPE {
+export type SealTypeListNoPageRet = Array<SealTypeItem>
+const enum UserType {
   Org = 1,
   Person = 2
 }
