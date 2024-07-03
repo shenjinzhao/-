@@ -1,23 +1,13 @@
-import axios from "@/api";
-import {
-  sealListRet,
-  sealListParams,
-  deleteSealRet,
-  deleteSealParams,
-  makeSealRet,
-  makeSealParams,
-} from "./type";
+import axios from '@/api'
+import { SealListParams, DeleteSealParams, MakeSealParams, SealListRet } from './type'
 
-const { get, post } = axios("");
+const { get, post } = axios('seal')
 
 /**  获取印章列表 */
-export const getSealList = (data: sealListParams) =>
-  get<sealListRet>("seal/page", data);
+export const getSealList = (data: SealListParams) => get<SealListRet>('page', data)
 
 /**  删除印章 */
-export const deleteSeal = (data: deleteSealParams) =>
-  post<deleteSealRet>("seal/delete", data);
+export const deleteSeal = (data: DeleteSealParams) => post('delete', data)
 
 /**  印章制作 */
-export const makeSeal = (data: makeSealParams) =>
-  post<makeSealRet>("seal/make", data);
+export const makeSeal = (data: MakeSealParams) => post('make', data)

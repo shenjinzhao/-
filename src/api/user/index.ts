@@ -1,24 +1,26 @@
-import axios from "@/api";
-import { getUserByOrgCodeRet, getUserByOrgCodeParams, getUserListPageParams, getUserListPageRet, addUserParams, addUserRet,deleteUserParams,deleteRet,editUserParams,editUserRet } from "./type";
+import axios from '@/api'
+import {
+  GetUserByOrgCodeRet,
+  GetUserListPageParams,
+  AddUserParams,
+  EditUserParams,
+  DeleteUserParams,
+  GetUserListPageRet
+} from './type'
 
-const { get, post } = axios("");
+const { get, post } = axios('user')
 /**  获取用户列表不分页 */
-export const getUserList = (data: any) =>
-  get<getUserByOrgCodeRet>("user/list", data);
-
+export const getUserList = (data: any) => get<GetUserByOrgCodeRet>('list', data)
 
 /**  获取用户列表分页 */
-export const getUserListPage = (data: getUserListPageParams) =>
-  get<getUserListPageRet>("user/page", data);
+export const getUserListPage = (data: GetUserListPageParams) =>
+  get<GetUserListPageRet>('page', data)
 
 /**  添加用户 */
-export const addUser = (data: addUserParams) =>
-  post<addUserRet>("user/add", data);
+export const addUser = (data: AddUserParams) => post('add', data)
 
 /**  编辑用户 */
-export const editUser = (data: editUserParams) =>
-  post<editUserRet>("user/edit", data);
+export const editUser = (data: EditUserParams) => post('edit', data)
 
 /**  删除用户 */
-export const deleteUser = (data: deleteUserParams) =>
-  post<deleteRet>("user/delete", data);
+export const deleteUser = (data: DeleteUserParams) => post('delete', data)
